@@ -1,0 +1,58 @@
+import base64
+from pathlib import Path
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
+
+from ad_personalization_agent.tools.generate_lifestyle_image import (
+    generate_lifestyle_image,
+    _load_image_bytes,
+)
+
+ASSETS_DIR = Path(__file__).resolve().parent.parent / "ad_personalization_agent" / "data" / "assets"
+
+
+def test_load_image_bytes_valid(tmp_path):
+    img_file = tmp_path / "test.png"
+    img_file.write_bytes(b"\x89PNG fake image data")
+    result = _load_image_bytes(str(img_file))
+    assert result == b"\x89PNG fake image data"
+
+
+def test_load_image_bytes_missing(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        _load_image_bytes(str(tmp_path / "nonexistent" / "path.png"))
+
+
+@pytest.mark.asyncio
+async def test_generate_lifestyle_image_calls_api():
+    fake_image_bytes = b"\x89PNG generated image"
+
+    mock_response = MagicMock()
+    mock_part = MagicMock()
+    mock_part.inline_data = MagicMock(data=fake_image_bytes, mime_type="image/png")
+    mock_part.text = None
+    mock_response.candidates = [MagicMock(content=MagicMock(parts=[mock_part]))]
+
+    mock_client = MagicMock()
+    mock_client.models.generate_content_async = AsyncMock(return_value=mock_response)
+
+    with patch(
+        "ad_personalization_agent.tools.generate_lifestyle_image._get_genai_client",
+        return_value=mock_client,
+    ):
+        result = await generate_lifestyle_image(
+            prompt="A photorealistic lifestyle image",
+            customer_photo_path=str(ASSETS_DIR / "customers" / "alex_morgan.png"),
+            product_image_path=str(ASSETS_DIR / "products" / "trail_running_shoe.png"),
+            logo_image_path=str(ASSETS_DIR / "brand" / "logo.png"),
+        )
+
+    assert result["status"] == "success"
+    assert "image_base64" in result
+    decoded = base64.b64decode(result["image_base64"])
+    assert decoded == fake_image_bytes
+
+    # Verify the API was called with the right model
+    call_kwargs = mock_client.models.generate_content_async.call_args
+    assert call_kwargs.kwargs["model"] == "gemini-3.1-flash-image-preview"
