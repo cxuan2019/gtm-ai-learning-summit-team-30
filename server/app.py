@@ -5,10 +5,15 @@ import json
 import logging
 from pathlib import Path
 
-from fastapi import FastAPI
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from google.adk import Runner
+from google.adk.artifacts import InMemoryArtifactService
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 from pydantic import BaseModel
@@ -29,10 +34,12 @@ app.add_middleware(
 )
 
 session_service = InMemorySessionService()
+artifact_service = InMemoryArtifactService()
 runner = Runner(
     app_name="ad_personalization",
     agent=root_agent,
     session_service=session_service,
+    artifact_service=artifact_service,
 )
 
 
@@ -63,51 +70,55 @@ class GenerateRequest(BaseModel):
 
 @app.post("/api/generate")
 async def generate_image(req: GenerateRequest):
-    session = await session_service.create_session(
-        app_name="ad_personalization",
-        user_id="demo_user",
-    )
+    try:
+        session = await session_service.create_session(
+            app_name="ad_personalization",
+            user_id="demo_user",
+        )
 
-    message = types.Content(
-        role="user",
-        parts=[
-            types.Part(
-                text=f"Generate a personalized lifestyle ad image for customer '{req.customer_id}' featuring product '{req.product_id}'."
-            )
-        ],
-    )
+        message = types.Content(
+            role="user",
+            parts=[
+                types.Part(
+                    text=f"Generate a personalized lifestyle ad image for customer '{req.customer_id}' featuring product '{req.product_id}'."
+                )
+            ],
+        )
 
-    final_text = ""
-    image_base64 = None
-    mime_type = "image/png"
+        final_text = ""
+        image_base64 = None
+        mime_type = "image/png"
 
-    async for event in runner.run_async(
-        session_id=session.id,
-        user_id="demo_user",
-        new_message=message,
-    ):
-        if event.is_final_response() and event.content and event.content.parts:
-            for part in event.content.parts:
-                if part.text:
-                    final_text += part.text
-        # Check for tool results containing image data
-        if event.actions and event.actions.tool_results:
-            for tool_result in event.actions.tool_results:
-                for part in tool_result.content.parts:
+        async for event in runner.run_async(
+            session_id=session.id,
+            user_id="demo_user",
+            new_message=message,
+        ):
+            if event.is_final_response() and event.content and event.content.parts:
+                for part in event.content.parts:
                     if part.text:
-                        try:
-                            data = json.loads(part.text)
-                            if isinstance(data, dict) and data.get("image_base64"):
-                                image_base64 = data["image_base64"]
-                                mime_type = data.get("mime_type", "image/png")
-                        except (json.JSONDecodeError, TypeError):
-                            pass
+                        final_text += part.text
+            # Check for tool results containing image data
+            if event.actions and event.actions.tool_results:
+                for tool_result in event.actions.tool_results:
+                    for part in tool_result.content.parts:
+                        if part.text:
+                            try:
+                                data = json.loads(part.text)
+                                if isinstance(data, dict) and data.get("image_base64"):
+                                    image_base64 = data["image_base64"]
+                                    mime_type = data.get("mime_type", "image/png")
+                            except (json.JSONDecodeError, TypeError):
+                                pass
 
-    return {
-        "summary": final_text,
-        "image_base64": image_base64,
-        "mime_type": mime_type,
-    }
+        return {
+            "summary": final_text,
+            "image_base64": image_base64,
+            "mime_type": mime_type,
+        }
+    except Exception as e:
+        logger.exception("Error generating image")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Serve generated images directory
