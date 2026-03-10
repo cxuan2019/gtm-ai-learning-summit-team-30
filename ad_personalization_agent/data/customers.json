@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cust_001",
+    "name": "Alex Morgan",
+    "photo": "assets/customers/alex_morgan.png",
+    "browsing_history": ["trail running shoes", "hiking gear", "outdoor fitness trackers", "camping equipment"],
+    "past_purchases": [
+      {"product": "Ultralight Hiking Boots", "category": "footwear", "date": "2025-11-15"},
+      {"product": "Quick-Dry Trail Shorts", "category": "apparel", "date": "2025-09-22"},
+      {"product": "GPS Running Watch", "category": "electronics", "date": "2025-07-10"}
+    ],
+    "style_preferences": {
+      "dominant_activity": "trail running",
+      "preferred_environment": "mountain trails",
+      "aesthetic": "rugged outdoor"
+    }
+  },
+  {
+    "id": "cust_002",
+    "name": "Jordan Patel",
+    "photo": "assets/customers/jordan_patel.png",
+    "browsing_history": ["yoga mats", "meditation cushions", "organic protein powder", "studio lighting"],
+    "past_purchases": [
+      {"product": "Premium Yoga Mat", "category": "fitness", "date": "2025-12-01"},
+      {"product": "Bamboo Water Bottle", "category": "accessories", "date": "2025-10-18"},
+      {"product": "Organic Cotton Hoodie", "category": "apparel", "date": "2025-08-05"}
+    ],
+    "style_preferences": {
+      "dominant_activity": "yoga and wellness",
+      "preferred_environment": "studio and home",
+      "aesthetic": "minimalist zen"
+    }
+  },
+  {
+    "id": "cust_003",
+    "name": "Sam Rivera",
+    "photo": "assets/customers/sam_rivera.png",
+    "browsing_history": ["road cycling jerseys", "carbon fiber bikes", "cycling computers", "energy gels"],
+    "past_purchases": [
+      {"product": "Aero Cycling Jersey", "category": "apparel", "date": "2025-11-28"},
+      {"product": "Clipless Pedals Pro", "category": "equipment", "date": "2025-09-14"},
+      {"product": "Insulated Water Bottle", "category": "accessories", "date": "2025-06-30"}
+    ],
+    "style_preferences": {
+      "dominant_activity": "road cycling",
+      "preferred_environment": "open roads and countryside",
+      "aesthetic": "sleek performance"
+    }
+  }
+]

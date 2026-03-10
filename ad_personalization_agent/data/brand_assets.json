@@ -1,0 +1,13 @@
+{
+  "brand_name": "Summit Athletics",
+  "slogan": "Rise Above. Push Beyond.",
+  "description": "Summit Athletics is a premium outdoor and fitness brand that empowers athletes to conquer their limits. We blend cutting-edge performance technology with sustainable materials.",
+  "colors": {
+    "primary": "#1B4D3E",
+    "secondary": "#E8A838",
+    "accent": "#F5F5F5"
+  },
+  "font": "Montserrat Bold",
+  "logo": "assets/brand/logo.png",
+  "tone": "Confident, aspirational, and grounded in nature. Speaks to athletes who see outdoor fitness as a lifestyle, not just a hobby."
+}
