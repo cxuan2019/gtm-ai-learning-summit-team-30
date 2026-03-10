@@ -1,34 +1,23 @@
 [
   {
     "id": "prod_001",
-    "title": "Apex Trail Runner X1",
-    "description": "Ultra-lightweight trail running shoe with Vibram outsole, responsive midsole cushioning, and waterproof Gore-Tex upper. Built for rugged mountain terrain with superior grip and ankle support.",
-    "category": "footwear",
-    "image": "assets/products/trail_running_shoe.png",
-    "price": 189.99
+    "title": "Nike Air Force 1 '07",
+    "description": "The radiance lives on in the Nike Air Force 1 '07, the b-ball icon that puts a fresh spin on what you know best: crisp leather, bold colours and the perfect amount of flash to make you shine.",
+    "image": "images/product_1.png",
+    "style": "Classic, Streetwear, Everyday"
   },
   {
     "id": "prod_002",
-    "title": "ThermoCore Insulated Bottle",
-    "description": "Double-wall vacuum insulated stainless steel water bottle. Keeps drinks cold for 24 hours or hot for 12. Leak-proof sport cap with one-hand operation. 750ml capacity.",
-    "category": "accessories",
-    "image": "assets/products/insulated_water_bottle.png",
-    "price": 44.99
+    "title": "Nike Air Max 90",
+    "description": "Lace up and feel the legacy. Produced at the intersection of art, music and culture, this champion running shoe helped define the '90s.",
+    "image": "images/product_2.png",
+    "style": "Retro, Sporty, Bold"
   },
   {
     "id": "prod_003",
-    "title": "FlexForm Pro Yoga Mat",
-    "description": "Premium 6mm natural rubber yoga mat with alignment markers. Non-slip surface on both sides, antimicrobial coating, and carrying strap included. Eco-friendly and biodegradable.",
-    "category": "fitness",
-    "image": "assets/products/yoga_mat.png",
-    "price": 89.99
-  },
-  {
-    "id": "prod_004",
-    "title": "AeroVent Cycling Jersey",
-    "description": "Race-fit cycling jersey with 3-pocket rear panel, full-length YKK zipper, and laser-cut ventilation. UPF 50+ sun protection. Italian-made fabric with moisture-wicking technology.",
-    "category": "apparel",
-    "image": "assets/products/cycling_jersey.png",
-    "price": 129.99
+    "title": "Nike Dunk Low Retro",
+    "description": "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with perfectly shined overlays and classic team colours.",
+    "image": "images/product_3.png",
+    "style": "Skate, Vintage, Casual"
   }
 ]

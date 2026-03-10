@@ -20,9 +20,22 @@ body {
   text-align: center;
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: #1b4d3e;
+  background: #000000;
   color: white;
   border-radius: 12px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.brand-logo {
+  height: 48px;
+  width: auto;
+  filter: brightness(0) invert(1);
 }
 
 .app-header h1 {
@@ -32,6 +45,13 @@ body {
 .subtitle {
   opacity: 0.85;
   margin-top: 0.25rem;
+}
+
+.slogan {
+  margin-top: 0.5rem;
+  font-style: italic;
+  opacity: 0.9;
+  font-size: 1.1rem;
 }
 
 .generator-panel {
@@ -57,7 +77,7 @@ body {
   display: block;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #1b4d3e;
+  color: #111;
 }
 
 .control-group select {
@@ -75,7 +95,7 @@ body {
   font-size: 1.1rem;
   font-weight: 700;
   color: white;
-  background: #e8a838;
+  background: #000000;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -83,7 +103,7 @@ body {
 }
 
 .generate-btn:hover:not(:disabled) {
-  background: #d4952e;
+  background: #333;
 }
 
 .generate-btn:disabled {
@@ -105,7 +125,7 @@ body {
 .summary {
   margin-top: 1rem;
   padding: 1rem;
-  background: #f0f7f4;
+  background: #f7f7f7;
   border-radius: 8px;
   text-align: left;
   white-space: pre-wrap;
@@ -122,6 +142,6 @@ body {
 .loading {
   margin-top: 2rem;
   text-align: center;
-  color: #1b4d3e;
+  color: #111;
   font-weight: 600;
 }

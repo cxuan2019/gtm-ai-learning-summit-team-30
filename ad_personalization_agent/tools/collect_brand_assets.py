@@ -7,7 +7,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 
 def collect_brand_assets() -> dict:
-    """Fetches the brand asset library including logo, colors, slogan, and tone guidelines."""
+    """Fetches the brand asset library including logo, colors, slogan, and font guidelines."""
     with open(DATA_DIR / "brand_assets.json") as f:
         brand = json.load(f)
 
@@ -16,11 +16,10 @@ def collect_brand_assets() -> dict:
         "status": "success",
         "brand": {
             "brand_name": brand["brand_name"],
-            "slogan": brand["slogan"],
-            "description": brand["description"],
-            "colors": brand["colors"],
-            "font": brand["font"],
+            "description": brand["brand_description"],
+            "slogan": brand["brand_slogan"],
+            "color": brand["brand_color"],
+            "font": brand["brand_font"],
             "logo_path": logo_path,
-            "tone": brand["tone"],
         },
     }

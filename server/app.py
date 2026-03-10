@@ -58,9 +58,21 @@ async def list_customers():
 async def list_products():
     products = _load_json("products.json")
     return [
-        {"id": p["id"], "title": p["title"], "category": p["category"], "price": p["price"]}
+        {"id": p["id"], "title": p["title"], "style": p["style"]}
         for p in products
     ]
+
+
+@app.get("/api/brand")
+async def get_brand():
+    brand = _load_json("brand_assets.json")
+    return {
+        "brand_name": brand["brand_name"],
+        "slogan": brand["brand_slogan"],
+        "color": brand["brand_color"],
+        "font": brand["brand_font"],
+        "logo_url": "/data/brand_asset/logo.png",
+    }
 
 
 class GenerateRequest(BaseModel):
@@ -124,6 +136,5 @@ async def generate_image(req: GenerateRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Serve generated images directory
-GENERATED_DIR = DATA_DIR / "assets"
-app.mount("/assets", StaticFiles(directory=str(GENERATED_DIR)), name="assets")
+# Serve static data files (images, brand assets, generated images)
+app.mount("/data", StaticFiles(directory=str(DATA_DIR)), name="data")

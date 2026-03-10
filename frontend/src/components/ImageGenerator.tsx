@@ -8,8 +8,7 @@ interface Customer {
 interface Product {
   id: string;
   title: string;
-  category: string;
-  price: number;
+  style: string;
 }
 
 interface GenerateResult {
@@ -90,7 +89,7 @@ function ImageGenerator() {
             <option value="">Select a product...</option>
             {products.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.title} — ${p.price}
+                {p.title}
               </option>
             ))}
           </select>

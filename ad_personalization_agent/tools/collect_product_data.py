@@ -24,9 +24,8 @@ def collect_product_data(product_id: str) -> dict:
                     "id": product["id"],
                     "title": product["title"],
                     "description": product["description"],
-                    "category": product["category"],
                     "image_path": image_path,
-                    "price": product["price"],
+                    "style": product["style"],
                 },
             }
 

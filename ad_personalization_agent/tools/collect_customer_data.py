@@ -26,7 +26,6 @@ def collect_customer_data(customer_id: str) -> dict:
                     "photo_path": photo_path,
                     "browsing_history": customer["browsing_history"],
                     "past_purchases": customer["past_purchases"],
-                    "style_preferences": customer["style_preferences"],
                 },
             }
 

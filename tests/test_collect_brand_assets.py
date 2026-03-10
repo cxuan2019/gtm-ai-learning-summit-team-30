@@ -5,9 +5,8 @@ def test_collect_brand_assets():
     result = collect_brand_assets()
     assert result["status"] == "success"
     brand = result["brand"]
-    assert brand["brand_name"] == "Summit Athletics"
-    assert brand["slogan"] == "Rise Above. Push Beyond."
+    assert brand["brand_name"] == "Nike"
+    assert brand["slogan"] == "Just Do It."
     assert "logo_path" in brand
-    assert "colors" in brand
+    assert "color" in brand
     assert "font" in brand
-    assert "tone" in brand
