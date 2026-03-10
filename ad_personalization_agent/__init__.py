@@ -1,4 +1,1 @@
-try:
-    from . import agent
-except ImportError:
-    pass
+from . import agent
