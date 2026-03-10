@@ -1,4 +1,3 @@
-import base64
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -25,7 +24,7 @@ def test_load_image_bytes_missing(tmp_path):
 
 
 @pytest.mark.asyncio
-async def test_generate_lifestyle_image_calls_api():
+async def test_generate_lifestyle_image_saves_to_disk(tmp_path):
     fake_image_bytes = b"\x89PNG generated image"
 
     mock_response = MagicMock()
@@ -35,11 +34,17 @@ async def test_generate_lifestyle_image_calls_api():
     mock_response.candidates = [MagicMock(content=MagicMock(parts=[mock_part]))]
 
     mock_client = MagicMock()
-    mock_client.models.generate_content_async = AsyncMock(return_value=mock_response)
+    mock_client.aio.models.generate_content = AsyncMock(return_value=mock_response)
 
-    with patch(
-        "ad_personalization_agent.tools.generate_lifestyle_image._get_genai_client",
-        return_value=mock_client,
+    with (
+        patch(
+            "ad_personalization_agent.tools.generate_lifestyle_image._get_genai_client",
+            return_value=mock_client,
+        ),
+        patch(
+            "ad_personalization_agent.tools.generate_lifestyle_image.OUTPUT_DIR",
+            tmp_path,
+        ),
     ):
         result = await generate_lifestyle_image(
             prompt="A photorealistic lifestyle image",
@@ -49,10 +54,12 @@ async def test_generate_lifestyle_image_calls_api():
         )
 
     assert result["status"] == "success"
-    assert "image_base64" in result
-    decoded = base64.b64decode(result["image_base64"])
-    assert decoded == fake_image_bytes
+    assert "image_path" in result
+    # Verify the image was saved to disk
+    saved_file = Path(result["image_path"])
+    assert saved_file.exists()
+    assert saved_file.read_bytes() == fake_image_bytes
 
     # Verify the API was called with the right model
-    call_kwargs = mock_client.models.generate_content_async.call_args
+    call_kwargs = mock_client.aio.models.generate_content.call_args
     assert call_kwargs.kwargs["model"] == "gemini-3.1-flash-image-preview"

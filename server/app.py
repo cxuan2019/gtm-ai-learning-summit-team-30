@@ -86,7 +86,7 @@ async def generate_image(req: GenerateRequest):
         )
 
         final_text = ""
-        image_base64 = None
+        image_path = None
         mime_type = "image/png"
 
         async for event in runner.run_async(
@@ -94,22 +94,25 @@ async def generate_image(req: GenerateRequest):
             user_id="demo_user",
             new_message=message,
         ):
-            if event.is_final_response() and event.content and event.content.parts:
-                for part in event.content.parts:
-                    if part.text:
-                        final_text += part.text
-            # Check for tool results containing image data
-            if event.actions and event.actions.tool_results:
-                for tool_result in event.actions.tool_results:
-                    for part in tool_result.content.parts:
-                        if part.text:
-                            try:
-                                data = json.loads(part.text)
-                                if isinstance(data, dict) and data.get("image_base64"):
-                                    image_base64 = data["image_base64"]
-                                    mime_type = data.get("mime_type", "image/png")
-                            except (json.JSONDecodeError, TypeError):
-                                pass
+            if not event.content or not event.content.parts:
+                continue
+            for part in event.content.parts:
+                # Capture the final text summary
+                if part.text and event.is_final_response():
+                    final_text += part.text
+                # Extract image path from function_response parts
+                if part.function_response:
+                    resp = part.function_response.response
+                    if isinstance(resp, dict) and resp.get("image_path"):
+                        image_path = resp["image_path"]
+                        mime_type = resp.get("mime_type", "image/png")
+
+        # Read the generated image from disk and encode as base64
+        image_base64 = None
+        if image_path:
+            image_file = Path(image_path)
+            if image_file.is_file():
+                image_base64 = base64.b64encode(image_file.read_bytes()).decode("utf-8")
 
         return {
             "summary": final_text,

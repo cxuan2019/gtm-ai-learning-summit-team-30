@@ -1,7 +1,7 @@
 """Tool for generating photorealistic lifestyle images using Gemini."""
 
-import base64
 import logging
+import uuid
 from pathlib import Path
 
 from google import genai
@@ -10,11 +10,12 @@ from google.genai import types
 logger = logging.getLogger(__name__)
 
 IMAGE_MODEL = "gemini-3.1-flash-image-preview"
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "data" / "assets" / "generated"
 
 
 def _get_genai_client() -> genai.Client:
-    """Returns a configured genai client."""
-    return genai.Client()
+    """Returns a configured genai client for image generation."""
+    return genai.Client(vertexai=True)
 
 
 def _load_image_bytes(image_path: str) -> bytes:
@@ -39,6 +40,8 @@ async def generate_lifestyle_image(
 
     Takes the crafted prompt along with reference images (customer photo,
     product image, brand logo) and generates a new composite lifestyle image.
+    Saves the result to disk and returns the file path (not the image data)
+    to avoid token overflow in the agent context.
 
     Args:
         prompt: The detailed image generation prompt.
@@ -63,7 +66,7 @@ async def generate_lifestyle_image(
     client = _get_genai_client()
 
     try:
-        response = await client.models.generate_content_async(
+        response = await client.aio.models.generate_content(
             model=IMAGE_MODEL,
             contents=contents,
             config=types.GenerateContentConfig(
@@ -74,14 +77,17 @@ async def generate_lifestyle_image(
         logger.error("Image generation API call failed: %s", e)
         return {"status": "error", "message": f"API call failed: {e}"}
 
-    # Extract generated image from response
+    # Extract generated image and save to disk
     for candidate in response.candidates:
         for part in candidate.content.parts:
             if part.inline_data and part.inline_data.data:
-                image_b64 = base64.b64encode(part.inline_data.data).decode("utf-8")
+                OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+                filename = f"{uuid.uuid4().hex}.png"
+                output_path = OUTPUT_DIR / filename
+                output_path.write_bytes(part.inline_data.data)
                 return {
                     "status": "success",
-                    "image_base64": image_b64,
+                    "image_path": str(output_path),
                     "mime_type": part.inline_data.mime_type or "image/png",
                 }
 
