@@ -59,7 +59,6 @@ React UI (:5173) → FastAPI (:8000) → ADK Runner → Root Agent (gemini-2.5-f
 │       └── components/
 │           └── ImageGenerator.tsx  # Main UI component
 ├── tests/                          # pytest test suite
-├── gtm-ai-learning-summit-team-30/ # Source Nike data and images
 ├── pyproject.toml
 └── .env.example
 ```
