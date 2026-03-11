@@ -49,8 +49,8 @@ React UI (:5173) → FastAPI (:8000) → ADK Runner → Root Agent (gemini-2.5-f
 │       ├── customers.json          # 3 customer profiles
 │       ├── products.json           # 3 Nike products
 │       ├── brand_assets.json       # Nike brand config
-│       ├── images/                 # → symlink to customer/product images
-│       └── brand_asset/            # → symlink to Nike logo
+│       ├── images/                 # Customer photos and product images
+│       └── brand_asset/            # Nike brand logo
 ├── server/
 │   └── app.py                      # FastAPI backend
 ├── frontend/
@@ -84,7 +84,7 @@ All data is local JSON — no database required.
 
 **Brand** — Nike: "Just Do It." slogan, `#000000` color, Futura Condensed Extra Black font.
 
-Customer photos, product images, and brand logo are sourced from `gtm-ai-learning-summit-team-30/`.
+Customer photos, product images, and brand logo are stored in `ad_personalization_agent/data/`.
 
 ## Setup
 
