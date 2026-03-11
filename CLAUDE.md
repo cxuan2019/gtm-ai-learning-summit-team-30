@@ -27,9 +27,6 @@ cd frontend && npm run dev
 # Run via ADK Web UI instead
 uv run adk web --port 8000
 
-# Generate placeholder images
-uv run python scripts/generate_placeholders.py
-
 # Build frontend for production
 cd frontend && npm run build
 ```
@@ -61,9 +58,10 @@ User (React @ :5173) → FastAPI (server/app.py @ :8000) → ADK Runner → Root
 
 All data is local JSON — no database required:
 - `ad_personalization_agent/data/customers.json` — 3 customer profiles with browsing history, purchases, style preferences
-- `ad_personalization_agent/data/products.json` — 4 products with descriptions and image paths
-- `ad_personalization_agent/data/brand_assets.json` — Summit Athletics brand config (colors, slogan, logo path, tone)
-- `ad_personalization_agent/data/assets/` — placeholder PNGs for customers, products, and brand logo
+- `ad_personalization_agent/data/products.json` — 3 Nike products with descriptions, image paths, and style tags
+- `ad_personalization_agent/data/brand_assets.json` — Nike brand config (colors, slogan, logo path, font)
+- `ad_personalization_agent/data/images/` — symlink to Nike customer/product images
+- `ad_personalization_agent/data/brand_asset/` — symlink to Nike brand logo
 
 ## Key Patterns
 

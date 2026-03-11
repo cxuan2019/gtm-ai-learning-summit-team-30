@@ -8,7 +8,7 @@ from ad_personalization_agent.tools.generate_lifestyle_image import (
     _load_image_bytes,
 )
 
-ASSETS_DIR = Path(__file__).resolve().parent.parent / "ad_personalization_agent" / "data" / "assets"
+DATA_DIR = Path(__file__).resolve().parent.parent / "ad_personalization_agent" / "data"
 
 
 def test_load_image_bytes_valid(tmp_path):
@@ -48,9 +48,9 @@ async def test_generate_lifestyle_image_saves_to_disk(tmp_path):
     ):
         result = await generate_lifestyle_image(
             prompt="A photorealistic lifestyle image",
-            customer_photo_path=str(ASSETS_DIR / "customers" / "alex_morgan.png"),
-            product_image_path=str(ASSETS_DIR / "products" / "trail_running_shoe.png"),
-            logo_image_path=str(ASSETS_DIR / "brand" / "logo.png"),
+            customer_photo_path=str(DATA_DIR / "images" / "customer_1_1773176273591.png"),
+            product_image_path=str(DATA_DIR / "images" / "product_1.png"),
+            logo_image_path=str(DATA_DIR / "brand_asset" / "logo.png"),
         )
 
     assert result["status"] == "success"

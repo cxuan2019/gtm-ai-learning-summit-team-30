@@ -187,4 +187,5 @@ service_account.json
 # Project-specific
 node_modules/
 frontend/dist/
+.pytest_cache/
 ad_personalization_agent/data/assets/generated/
