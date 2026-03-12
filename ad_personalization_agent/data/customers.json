@@ -1,0 +1,23 @@
+[
+  {
+    "id": "cust_001",
+    "name": "Chloe Vance",
+    "photo": "images/customer_1_1773176273591.png",
+    "browsing_history": "Women's running shoes, athletic apparel, yoga mats",
+    "past_purchases": "Nike React Infinity Run, sports bra"
+  },
+  {
+    "id": "cust_002",
+    "name": "David Chen",
+    "photo": "images/customer_2_1773176299671.png",
+    "browsing_history": "Men's basketball shoes, streetwear sneakers, hoodies",
+    "past_purchases": "Air Jordan 1 High, Nike tech fleece"
+  },
+  {
+    "id": "cust_003",
+    "name": "Jamal Reynolds",
+    "photo": "images/customer_3_1773176314089.png",
+    "browsing_history": "Skate shoes, vintage sneakers, casual wear",
+    "past_purchases": "Nike SB Dunk Low, vintage Nike windbreaker"
+  }
+]
