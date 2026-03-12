@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function HeaderComponent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +22,19 @@ export default function HeaderComponent() {
 
       {/* Utilities */}
       <div className="flex items-center gap-4">
+        {/* Jamal Personalized Greeting */}
+        <div className="hidden sm:flex items-center gap-2 mr-2 border-r border-gray-800 pr-4">
+          <span className="text-sm font-medium text-gray-300">Welcome, Jamal!</span>
+          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-700">
+            <Image
+              src="/customer_3_1773176314089.png"
+              alt="Jamal Reynolds"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
         <button className="hidden md:block hover:opacity-70 transition-opacity uppercase text-sm font-medium">Search</button>
         <button className="hover:opacity-70 transition-opacity uppercase text-sm font-medium">Cart (0)</button>
         <button 
